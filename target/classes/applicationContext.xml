@@ -2,20 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
 
-	<bean id="tv" class="SamsungTV" lazy-init="true" scope="prototype" p:speaker-ref="sony" p:price="2700000">
-	</bean>
+	<context:component-scan base-package="com.springbook.biz"></context:component-scan>
 	
-	<bean id="collectionBean" class="CollectionBean">
-		<property name ="addressList">
-			<list>
-				<value>강남구 역삼동</value>
-				<value>종로구 행촌동</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="apple" class="AppleSpeaker"></bean>
-	<bean id = "sony" class="SonySpeaker"/>
+	<bean id="log" class="com.springbook.biz.common.Log4jAdvice"></bean>
+
+	<aop:config>
+		<aop:pointcut id="allPointcut" expression="execution(* com.springbook.biz..*Impl.*(..))" />
+		<aop:pointcut id="getPointcut" expression="execution(* com.springbook.biz..*Impl.get*(..))"/>
+		
+		<aop:aspect ref="log">
+			<aop:after pointcut-ref="getPointcut" method="printLogging"/>
+		</aop:aspect>
+	</aop:config>
 </beans>
