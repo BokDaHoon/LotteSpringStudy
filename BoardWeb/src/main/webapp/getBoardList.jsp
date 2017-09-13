@@ -1,16 +1,10 @@
 <%@ page contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-<%@ page import="com.springbook.biz.board.impl.BoardDAO"%>
 <%@ page import="com.springbook.biz.board.BoardVO"%>
 <%@ page import="java.util.List"%>
 
 <%
-	// 1. 사용자 입력 정보 추출(검색 기능 추후 구현)
-	// 2. DB 연동 처리
-	BoardVO vo = new BoardVO();
-	BoardDAO boardDAO = new BoardDAO();
-	List<BoardVO> boardList = boardDAO.getBoardList(vo);
-
-	//3. 응답 화면 구성
+	// 세션에 저장된 글 목록을 꺼낸다
+	List<BoardVO> boardList = (List) session.getAttribute("boardList");
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -23,7 +17,7 @@
 	<center>
 		<h1>글 목록</h1>
 		<h3>
-			테스트 님 환영합니다...<a href="logout_proc.jsp">Log-out</a>
+			테스트 님 환영합니다...<a href="logout.do">Log-out</a>
 		</h3>
 
 		<!-- 검색 시작 -->
@@ -55,7 +49,7 @@
 			<tr>
 				<td><%=board.getSeq()%></td>
 				<td align="left"><a
-					href="getBoard.jsp?seq=<%=board.getSeq()%> "><%=board.getTitle()%></a></td>
+					href="getBoard.do?seq=<%=board.getSeq()%> "><%=board.getTitle()%></a></td>
 				<td><%=board.getWriter()%></td>
 				<td><%=board.getRegDate()%></td>
 				<td><%=board.getCnt()%></td>
