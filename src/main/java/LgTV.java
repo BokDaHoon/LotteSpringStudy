@@ -1,0 +1,20 @@
+
+
+public class LgTV implements TV{
+	public void powerOn () {
+		// TODO Auto-generated method stub
+		System.out.println("LGTV--전원 켠다");
+	}
+	public void powerOff() {
+		// TODO Auto-generated method stub
+		System.out.println("LGTV--전원 끈다");
+	}
+	public void volumeUp() {
+		// TODO Auto-generated method stub
+		System.out.println("LGTV--소리 올린다");
+	}
+	public void volumeDown() {
+		// TODO Auto-generated method stub
+		System.out.println("LGTV--소리 줄인다.");
+	}
+}
