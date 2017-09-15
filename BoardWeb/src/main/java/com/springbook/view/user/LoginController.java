@@ -25,6 +25,11 @@ public class LoginController {
 	public String login(UserVO vo, UserDAO userDAO, HttpSession session) {
 		System.out.println("로그인 인증 처리");
 
+		if(vo.getId() == null || vo.getId().equals("")
+				|| vo.getPassword() == null || vo.getPassword().equals("")) {
+			throw new IllegalArgumentException("아이디 혹은 비밀번호를 입력하지 않았습니다");
+		}
+		
 		UserVO user = userDAO.getUser(vo);
 		if (user != null) {
 			session.setAttribute("userName", user.getName());
