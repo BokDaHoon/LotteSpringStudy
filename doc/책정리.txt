@@ -151,3 +151,18 @@ class07 트랜잭션 처리
 ------------------------------------------DAY3-------------------------------
 Class01 Model1 아키텍쳐로 게시판 개발.
  1.1 server root context를 바꿀땐 server-module에서 edit하면 된다.
+
+Class04 MVC 프레임워크 개발
+ 4.1 MVC 구조에는 크게 4가지 클래스가 필요하다가
+  #Dispatcher Servlet : 유일한 서블릿 클래스로서 모든 클라이언트의 요청을 가장 먼저 처리함.
+  #HandlerMapping : 클라이언트의 요청을 처리할 Controller 맵핑
+   - 모든 Controller 객체들을 저장하고 있다가, 클라이언트의 요청이 들어오면 Controller를 검색한다. (getControoler로)
+  #Viewresolver  : controller 가 리턴한 view 이름으로 실행될 jsp 경로 완성.
+   - 아 .do가 붙을경우는 다시 클라이언트로 간뒤에 DispatcherServlet으로 들어와서 명령어 수행후 view를찍게됨.(do가 없을땐 surfix prefix가 붙음)
+  *직접 mvc를 만들었을때는 세션에다가 글리스트나 글객체를 떄려박음.(아마 프레임워크의 이해만 시키려고 이렇게 짠듯)
+  
+  순서는 이렇게됨
+  1.DispatcherServlet 에서 클라이언트의 명령을 받음
+  2.handlermapping 내에있는 맵에서 컨트롤러를 get해온다 (path 기준)
+  3.controller의 인터페이스에서 상속된 handlerequest를 수행함 
+  4.viewresolver를 거쳐 그화면으로 redirect (*.do)의 경우는 다시 디스패처로옴
