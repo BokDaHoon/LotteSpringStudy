@@ -1,42 +1,47 @@
 package com.springbook.view.user;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
+import javax.servlet.http.HttpSession;
 
-import com.springbook.biz.user.UserVO;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
 import com.springbook.biz.user.impl.UserDAO;
+import com.springbook.biz.user.UserVO;
 
-public class LoginController implements Controller{
 
-	@Override
-	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse reponse) {
-		System.out.println("로그인 처리");
-		
-		//1.사용자 입력 정보 추출
-		
-		String id = request.getParameter("id");
-		String password = request.getParameter("password");
-		
-		//2.DB연동 처리
-		UserVO vo = new UserVO();
-		vo.setId(id);
-		vo.setPassword(password);
-		
-		UserDAO userDAO = new UserDAO();
-		UserVO user = userDAO.getUser(vo);
-		
-		//3.화면 네비게이션
-		ModelAndView mav = new ModelAndView();
-		if (user != null) {
-			mav.setViewName("getBoardList.do");
-		} else {
-			mav.setViewName("login");
-		}
-		
-		return mav;
+@Controller
+public class LoginController {
+
+	@RequestMapping(value="/login.do", method=RequestMethod.GET)
+	public String loginView(@ModelAttribute("user") UserVO vo) {
+
+		System.out.println("로그인 화면으로 이동");
+
+		vo.setId("test");
+		vo.setPassword("test123");
+
+		return "login.jsp";
 	}
-	
+
+	@RequestMapping(value="/login.do", method=RequestMethod.POST)
+	public String login(UserVO vo, UserDAO userDAO, HttpSession session) {
+
+		UserVO user = userDAO.getUser(vo);
+
+		if(userDAO.getUser(vo) != null) {
+
+			session.setAttribute("userName", user.getName());
+
+			return "getBoardList.do";
+
+		} else {
+
+			return "login.jsp";
+		}
+	}
 }

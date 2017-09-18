@@ -166,3 +166,13 @@ Class04 MVC 프레임워크 개발
   2.handlermapping 내에있는 맵에서 컨트롤러를 get해온다 (path 기준)
   3.controller의 인터페이스에서 상속된 handlerequest를 수행함 
   4.viewresolver를 거쳐 그화면으로 redirect (*.do)의 경우는 다시 디스패처로옴
+  
+----------------------------Day 04------------------------------
+Class03 프레젠테이션 레이와 비즈니스 레이어 통합.
+ 3.2.1 2-Layerd 아키텍쳐
+  일반적으로 스프링 기반의 웹프로젝트를보면 403page 처럼 두개의 레이어로 나누어 시스템을 개발하는데, 이를 2-layered 아키텍처 스타일이라고 한다.
+  비즈니스 레이어에 해당하는 applicationContext.xml 이 있으며, 프레젠테이션 레이어 설정에 해당하는 presentation-layer.xml이 있다.
+  DispatcherServlet이 생성되어, presentation-layer.xm 파일을 읽고 스프링 컨테이너를 구동하면 controller 객체들이 메모리에 생성된다. 그러나 Controller객체가 생성되기전에, 누가먼저 applicationCntext.xml 파일을 읽어 비즈니스컴포넌트들을 메모리에 생성해야된다. 이 파일이바로 ContextLoaderListener 이다.
+ 3.2.2 ContextLoaderListener 등록
+   ContextLoaderListener 는 클라이언트의 요청이없어도 컨테이너가 구동될때 Pre-Loading 되는 객체이다.
+  Listener는 Servlet 이나 Filter 클래스와 마찬가지로 web.xml 파일에 등록한다.
